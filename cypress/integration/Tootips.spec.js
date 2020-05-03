@@ -56,6 +56,8 @@ describe('Third test suite', () => {
 		// 		)
 		// 	})
 
+		//comentario de prueba
+
 		//3 HACER QUE CYPRESS RESPONDA NO A LA VENTANA DEL NAVEGADOR
 		cy.get('tbody tr').first().find('.nb-trash').click()
 		cy.on('window:confirm', () => false)
