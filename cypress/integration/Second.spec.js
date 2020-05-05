@@ -157,7 +157,7 @@ describe('First test suite', () => {
 
 	///////////////////////////////////////////////////////////////////////////////////////////////
 
-	it.only('assert property datepicker PART 1', () => {
+	it('assert property datepicker PART 1', () => {
 		cy.visit('/')
 		cy.contains('Forms').click()
 		cy.contains('Datepicker').click()
@@ -165,7 +165,11 @@ describe('First test suite', () => {
 		let date = new Date()
 		date.setDate(date.getDate() + 5)
 		let futureDay = date.getDate()
-		let futureMonth = date.toLocaleString('default', { month: 'short' })
+		//let futureMonth = date.toLocaleString('default', { month: 'long' })
+		let futureMonth = date.toLocaleString('en-us', { month: 'short' })
+
+		console.log(date)
+		console.log(futureMonth)
 
 		cy.contains('nb-card', 'Common Datepicker')
 			.find('input')
@@ -199,10 +203,10 @@ describe('First test suite', () => {
 		cy.contains('Datepicker').click()
 
 		let date = new Date()
-		date.setDate(date.getDate() + 5)
+		date.setDate(date.getDate() + 40)
 		let futureDay = date.getDate()
 		console.log(futureDay)
-		let futureMonth = date.toLocaleString('default', { month: 'short' })
+		let futureMonth = date.toLocaleString('en-us', { month: 'short' })
 		let dateAssert = futureMonth + ' ' + futureDay + ', ' + date.getFullYear()
 
 		cy.contains('nb-card', 'Common Datepicker')
@@ -210,7 +214,10 @@ describe('First test suite', () => {
 			.then(input => {
 				cy.wrap(input).click()
 
+				//LLamado a la funcion que ubica el dia en el calendario
 				selectDayFromCurrent()
+
+				//Esta función permite pasar el mes hasta llegar al dia que se espera
 				function selectDayFromCurrent() {
 					cy.get('nb-calendar-navigation')
 						.invoke('attr', 'ng-reflect-date')
@@ -231,40 +238,42 @@ describe('First test suite', () => {
 			})
 	})
 
-	it('assert property datepicker PART 3', () => {
+	it.only('assert property datepicker PART 3', () => {
+		//
+		//Esta función permite ubicar el dia y mes a futuro segun el parametro que se recibe
+		function selectDayFromCurrent(day) {
+			let date = new Date()
+			date.setDate(date.getDate() + day)
+			let futureDay = date.getDate()
+			let futureMonth = date.toLocaleString('en-us', { month: 'short' })
+			let dateAssert = futureMonth + ' ' + futureDay + ', ' + date.getFullYear()
+
+			//Esta funcion permite pasar el mes hasta llegar al dia que se espera
+			cy.get('nb-calendar-navigation')
+				.invoke('attr', 'ng-reflect-date')
+				.then(dateAttribute => {
+					if (!dateAttribute.includes(futureMonth)) {
+						cy.get('[data-name="chevron-right"]').click()
+						selectDayFromCurrent()
+					} else {
+						cy.get('nb-calendar-day-picker [class="day-cell ng-star-inserted"]')
+							.contains(futureDay)
+							.click()
+					}
+				})
+			return dateAssert
+		}
+
 		cy.visit('/')
 		cy.contains('Forms').click()
 		cy.contains('Datepicker').click()
-
-		let date = new Date()
-		date.setDate(date.getDate() + 13)
-		let futureDay = date.getDate()
-		let futureMonth = date.toLocaleString('default', { month: 'short' })
-		let dateAssert = futureMonth + ' ' + futureDay + ', ' + date.getFullYear()
 
 		cy.contains('nb-card', 'Common Datepicker')
 			.find('input')
 			.then(input => {
 				cy.wrap(input).click()
-
-				selectDayFromCurrent()
-				function selectDayFromCurrent() {
-					cy.get('nb-calendar-navigation')
-						.invoke('attr', 'ng-reflect-date')
-						.then(dateAttribute => {
-							if (!dateAttribute.includes(futureMonth)) {
-								cy.get('[data-name="chevron-right"]').click()
-								selectDayFromCurrent()
-							} else {
-								cy.get(
-									'nb-calendar-day-picker [class="day-cell ng-star-inserted"]'
-								)
-									.contains(futureDay)
-									.click()
-							}
-						})
-				}
-
+				//LLamado a la funcion que ubica el dia en el calendario y se envia el parametro de dias a calcular
+				let dateAssert = selectDayFromCurrent(10)
 				cy.wrap(input).invoke('prop', 'value').should('contain', dateAssert)
 			})
 	})
@@ -402,6 +411,7 @@ describe('First test suite', () => {
 //git remote add origin https://github.com/delark/cypress_test_udemy.git
 //git pull origin master
 //COPIAR TODO EL CONTENIDO DE LA CARPETA DEL PROYECTO CLONADO incluyendo archivos .algo como .gitignore o .prettierrc ya que son de configuracion
+//
 //PARA ENVIAR LOS NUEVOS CAMBIOS AL REPOSITORIO DE GITHUB
 //git add .
 //git commit -m "agregar proyecto Udemy Zero to Hero attribute and datepicker"

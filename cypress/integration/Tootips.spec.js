@@ -10,7 +10,7 @@ describe('Third test suite', () => {
 		cy.get('nb-tooltip').should('contain', 'This is a tooltip')
 	})
 
-	it('**dialog box with component**', () => {
+	it.only('**dialog box with component**', () => {
 		cy.visit('/')
 		cy.contains('Modal & Overlays').click()
 		cy.contains('Dialog').click()
@@ -24,13 +24,16 @@ describe('Third test suite', () => {
 			'This is a title passed to the dialog component'
 		)
 
-		//ERROR Dismiss Dialog button
-		cy.contains('nb-card', '_ngcontent-mws-c23')
-			.contains('button', 'Dismiss Dialog')
+		cy.contains('nb-card', 'This is a title passed to the dialog component')
+			.should(
+				'contain',
+				'Lorem ipsum dolor sit amet, consectetur adipiscing elit'
+			)
+			.find('button')
 			.click()
 	})
 
-	it.only('browser dialog box', () => {
+	it('browser dialog box', () => {
 		cy.visit('/')
 		cy.contains('Tables & Data').click()
 		cy.contains('Smart Table').click()
