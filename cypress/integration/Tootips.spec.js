@@ -10,7 +10,7 @@ describe('Third test suite', () => {
 		cy.get('nb-tooltip').should('contain', 'This is a tooltip')
 	})
 
-	it.only('**dialog box with component**', () => {
+	it.only('dialog box with component and assert dialog content', () => {
 		cy.visit('/')
 		cy.contains('Modal & Overlays').click()
 		cy.contains('Dialog').click()
@@ -47,22 +47,20 @@ describe('Third test suite', () => {
 		// })
 
 		//2 CON ESTE METODO SE PUEDE CONFIRMAR QUE SI NO SALE LA VENTANA (window:confirm) LA PRUEBA NO PASARA YA QUE NO PODRA RETORNAR EL MENSAJE QUE DEBE MOSTRAR LA VENTANA
-		// const stub = cy.stub()
-		// cy.on('window:confirm', stub)
-		// cy.get('tbody tr')
-		// 	.first()
-		// 	.find('.nb-trash')
-		// 	.click()
-		// 	.then(() => {
-		// 		expect(stub.getCall(0)).to.be.calledWith(
-		// 			'Are you sure you want to delete?'
-		// 		)
-		// 	})
-
-		//comentario de prueba
+		const stub = cy.stub()
+		cy.on('window:confirm', stub)
+		cy.get('tbody tr')
+			.first()
+			.find('.nb-trash')
+			.click()
+			.then(() => {
+				expect(stub.getCall(0)).to.be.calledWith(
+					'Are you sure you want to delete?'
+				)
+			})
 
 		//3 HACER QUE CYPRESS RESPONDA NO A LA VENTANA DEL NAVEGADOR
-		cy.get('tbody tr').first().find('.nb-trash').click()
-		cy.on('window:confirm', () => false)
+		//cy.get('tbody tr').first().find('.nb-trash').click()
+		//cy.on('window:confirm', () => false)
 	})
 })
