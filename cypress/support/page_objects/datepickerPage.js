@@ -15,9 +15,7 @@ function selectDayFromCurrent(day) {
 				cy.get('[data-name="chevron-right"]').click()
 				selectDayFromCurrent(day)
 			} else {
-				//cy.get('nb-calendar-day-picker [class="day-cell ng-star-inserted"]').contains(futureDay).click()
-				//
-				cy.get('day-cell').not('.bounding-month').contains(futureDay).click()
+				cy.get('.day-cell').not('.bounding-month').contains(futureDay).click()
 			}
 		})
 	return dateAssert
@@ -31,9 +29,9 @@ export class DatepickerPage {
 			.find('input')
 			.then(input => {
 				cy.wrap(input).click()
-				let dateAssert = selectDayFromCurrent(dayFromToday) //Se llama a la funcion enviando el valor del paramtero (day) que se ingreso en testWithPageObejects.js
+				let dateAssert = selectDayFromCurrent(dayFromToday) //Se llama a la funcion que calcula el dia en el calendario, enviando el valor del paramtero (day) que se ingreso en testWithPageObejects.js
 				cy.wrap(input).invoke('prop', 'value').should('contain', dateAssert)
-				//cy.wrap(input).should('have.value', dateAssert)
+				cy.wrap(input).should('have.value', dateAssert)
 			})
 	}
 
@@ -42,7 +40,7 @@ export class DatepickerPage {
 			.find('input')
 			.then(input => {
 				cy.wrap(input).click()
-				let dateAssertFirst = selectDayFromCurrent(firstDay) //LLamado a la funcion que ubica el dia en el calendario y se envia el parametro de dias a calcular
+				let dateAssertFirst = selectDayFromCurrent(firstDay)
 				let dateAssertSecond = selectDayFromCurrent(secondDay)
 				const finalDate = dateAssertFirst + ' - ' + dateAssertSecond
 				cy.wrap(input).invoke('prop', 'value').should('contain', finalDate)

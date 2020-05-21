@@ -23,7 +23,7 @@ describe('Test with Page Objects', () => {
 		//onFormLayoutsPage.submitBasicFormWithEmailAndPassword('test@test.com','password')
 
 		navigateTo.datepickerPage()
-		onDatepickerPage.selectCommonDatepickerDateFromToday(1)
+		onDatepickerPage.selectCommonDatepickerDateFromToday(14)
 		onDatepickerPage.selectDatepickerWithRangeFromToday(7, 14)
 
 		//onFechapickerPage.selectCommonFechapickerDateFromToday(13)
