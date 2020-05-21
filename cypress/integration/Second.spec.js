@@ -163,7 +163,7 @@ describe('First test suite', () => {
 		cy.contains('Datepicker').click()
 
 		let date = new Date()
-		date.setDate(date.getDate() + 5)
+		date.setDate(date.getDate() + 14)
 		let futureDay = date.getDate()
 		//let futureMonth = date.toLocaleString('default', { month: 'long' })
 		let futureMonth = date.toLocaleString('en-us', { month: 'short' })
@@ -239,7 +239,6 @@ describe('First test suite', () => {
 	})
 
 	it.only('assert property datepicker PART 3', () => {
-		//
 		//Esta función permite ubicar el dia y mes a futuro segun el parametro que se recibe
 		function selectDayFromCurrent(day) {
 			let date = new Date()
@@ -248,13 +247,17 @@ describe('First test suite', () => {
 			let futureMonth = date.toLocaleString('en-us', { month: 'short' })
 			let dateAssert = futureMonth + ' ' + futureDay + ', ' + date.getFullYear()
 
-			//Esta funcion permite pasar el mes hasta llegar al dia que se espera
+			console.log(date)
+			console.log(futureDay)
+			console.log(futureMonth)
+
+			//Esta funcion permite pasar el mes hasta llegar al mes y dia que se espera
 			cy.get('nb-calendar-navigation')
 				.invoke('attr', 'ng-reflect-date')
 				.then(dateAttribute => {
 					if (!dateAttribute.includes(futureMonth)) {
 						cy.get('[data-name="chevron-right"]').click()
-						selectDayFromCurrent()
+						selectDayFromCurrent(day)
 					} else {
 						cy.get('nb-calendar-day-picker [class="day-cell ng-star-inserted"]')
 							.contains(futureDay)
@@ -273,7 +276,7 @@ describe('First test suite', () => {
 			.then(input => {
 				cy.wrap(input).click()
 				//LLamado a la funcion que ubica el dia en el calendario y se envia el parametro de dias a calcular
-				let dateAssert = selectDayFromCurrent(10)
+				let dateAssert = selectDayFromCurrent(13)
 				cy.wrap(input).invoke('prop', 'value').should('contain', dateAssert)
 			})
 	})

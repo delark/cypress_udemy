@@ -1,6 +1,7 @@
 import { navigateTo } from '../support/page_objects/navigationPage'
 import { onFormLayoutsPage } from '../support/page_objects/formLayoutsPage'
 import { onDatepickerPage } from '../support/page_objects/datepickerPage'
+import { onFechapickerPage } from '../support/page_objects/fechapickerPage'
 
 describe('Test with Page Objects', () => {
 	//
@@ -17,13 +18,14 @@ describe('Test with Page Objects', () => {
 	})
 
 	it.only('show submit Inline and Basic form and select tomorrow date in the calendar', () => {
-		navigateTo.formLayoutsPage()
-		onFormLayoutsPage.submitInlineFormWithNameAndEmail('Artem', 'test@test.com')
-		onFormLayoutsPage.submitBasicFormWithEmailAndPassword(
-			'test@test.com',
-			'password'
-		)
+		//navigateTo.formLayoutsPage()
+		//onFormLayoutsPage.submitInlineFormWithNameAndEmail('Artem', 'test@test.com')
+		//onFormLayoutsPage.submitBasicFormWithEmailAndPassword('test@test.com','password')
+
 		navigateTo.datepickerPage()
 		onDatepickerPage.selectCommonDatepickerDateFromToday(1)
+		onDatepickerPage.selectDatepickerWithRangeFromToday(7, 14)
+
+		//onFechapickerPage.selectCommonFechapickerDateFromToday(13)
 	})
 })
