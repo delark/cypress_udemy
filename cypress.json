@@ -1,7 +1,7 @@
 {
 	"baseUrl": "http://localhost:4200",
 	"ignoreTestFiles": "**/examples/*",
-	"watchForFileChanges": false,
-	"viewportWidth": 1280,
-	"viewportHeight": 1024
+  "watchForFileChanges": false,
+  "viewportWidth": 1200,
+  "viewportHeight": 800
 }
